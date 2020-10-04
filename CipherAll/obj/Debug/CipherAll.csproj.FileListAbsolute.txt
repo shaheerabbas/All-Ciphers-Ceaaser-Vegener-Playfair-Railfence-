@@ -1,0 +1,10 @@
+E:\Ciphers\CipherAll\CipherAll\bin\Debug\CipherAll.exe.config
+E:\Ciphers\CipherAll\CipherAll\bin\Debug\CipherAll.exe
+E:\Ciphers\CipherAll\CipherAll\bin\Debug\CipherAll.pdb
+E:\Ciphers\CipherAll\CipherAll\obj\Debug\CipherAll.csprojAssemblyReference.cache
+E:\Ciphers\CipherAll\CipherAll\obj\Debug\CipherAll.Form1.resources
+E:\Ciphers\CipherAll\CipherAll\obj\Debug\CipherAll.Properties.Resources.resources
+E:\Ciphers\CipherAll\CipherAll\obj\Debug\CipherAll.csproj.GenerateResource.cache
+E:\Ciphers\CipherAll\CipherAll\obj\Debug\CipherAll.csproj.CoreCompileInputs.cache
+E:\Ciphers\CipherAll\CipherAll\obj\Debug\CipherAll.exe
+E:\Ciphers\CipherAll\CipherAll\obj\Debug\CipherAll.pdb
