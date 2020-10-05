@@ -20,16 +20,22 @@ namespace CipherAll
         private void button1_Click(object sender, EventArgs e)
 
         {  
-            //int x = Convert.ToInt32(textBox1.Text);
+    
             string message = textBox2.Text;
             
+            if (comboBox1.Text == "Shift")
+            {
+                int x = Convert.ToInt32(textBox1.Text);
+                textBox3.Text = ceasercipher.encrypt(message, x);
+            }
+
             if(comboBox1.Text == "Vegenere")
             {
                 string x = textBox1.Text;
                 textBox3.Text = VegenereCipher.encrypt(message, x);
             }
 
-            if (comboBox1.Text == "Ceaser")
+            if (comboBox1.Text == "Substitution")
             {
                 int x = Convert.ToInt32(textBox1.Text);
                 textBox3.Text = ceasercipher.encrypt(message, x);
@@ -44,7 +50,7 @@ namespace CipherAll
             if (comboBox1.Text == "PlayFair")
             {
                 string x = textBox1.Text;
-                textBox3.Text = Playfair.encrypt(message, x, false);
+                textBox3.Text = Playfair.encrypt(message, x, true);
             }
 
 
@@ -57,6 +63,42 @@ namespace CipherAll
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string message = textBox2.Text;
+
+            if (comboBox1.Text == "Shift")
+            {
+                int x = Convert.ToInt32(textBox1.Text);
+                textBox3.Text = ceasercipher.decrypt(message, 26-x);
+            }
+
+            if (comboBox1.Text == "Vegenere")
+            {
+                string x = textBox1.Text;
+                textBox3.Text = VegenereCipher.decrypt(message, x);
+            }
+
+            if (comboBox1.Text == "Substitution")
+            {
+                int x = Convert.ToInt32(textBox1.Text);
+                textBox3.Text = ceasercipher.decrypt(message, 26 - x);
+            }
+
+            if (comboBox1.Text == "RailFence")
+            {
+                int x = Convert.ToInt32(textBox1.Text);
+                textBox3.Text = RailfenceCipher.decrypt(message, x);
+            }
+
+            if (comboBox1.Text == "PlayFair")
+            {
+                string x = textBox1.Text;
+                textBox3.Text = Playfair.encrypt(message, x, false);
+            }
 
         }
     }
@@ -82,6 +124,27 @@ public class ceasercipher
         }
         return result;
     }
+
+
+    public static string decrypt(string text, int key)
+    {
+
+        string result = " ";
+
+        for (int i = 0; i < text.Length; i++)
+        {
+            if (char.IsUpper(text[i]))
+            {
+                result += Convert.ToChar(Math.Abs(Convert.ToInt32(text[i] + key - 65)) % 26 + 65);
+            }
+            else 
+            {
+
+                result += Convert.ToChar(Math.Abs(Convert.ToInt32(text[i] + key - 97)) % 26 + 97);
+            }
+        }
+        return result;
+    }
 }
 
 public class VegenereCipher
@@ -97,6 +160,19 @@ public class VegenereCipher
 
         return result;
     }
+
+    public static string decrypt(string text, string key)
+    {
+        string result = "";
+
+        for (int i = 0; i < text.Length; i++)
+        {
+            result += Convert.ToChar(((Convert.ToInt32(text[i]) - 97) - (Convert.ToInt32(key[i]) - 97)) % 26 + 97);
+        }
+
+        return result;
+    }
+
 }
 
 
@@ -129,6 +205,8 @@ public class RailfenceCipher
 
         return result;
     }  
+
+
         public static char[][] BuildCleanMatrix(int rows, int cols)
         {
             char[][] result = new char[rows][];
@@ -175,8 +253,51 @@ public class RailfenceCipher
             return result;
         }
 
-    
+    public static string decrypt(string cipherText, int key)
+    {
+        string result = string.Empty;
+
+        char[][] matrix = BuildCleanMatrix(key, cipherText.Length);
+
+        int rowIncrement = 1;
+        int textIdx = 0;
+
+        for (
+            int selectedRow = 0;
+            selectedRow < matrix.Length;
+            selectedRow++
+            )
+        {
+            for (
+                int row = 0, col = 0;
+                col < matrix[row].Length;
+                col++
+                )
+            {
+                if (
+                    row + rowIncrement == matrix.Length ||
+                    row + rowIncrement == -1
+                    )
+                {
+                    rowIncrement *= -1;
+                }
+
+                if (row == selectedRow)
+                {
+                    matrix[row][col] = cipherText[textIdx++];
+                }
+
+                row += rowIncrement;
+            }
+        }
+
+        matrix = Transpose(matrix);
+        result = BuildStringFromMatrix(matrix);
+
+        return result;
+    }
 }
+
 
 
 
